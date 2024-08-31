@@ -1,0 +1,31 @@
+.list__pokemons{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 0.75rem;
+    row-gap: 40px;
+    width: 100%;
+    justify-items: center;
+
+  .not-found-pokemon{
+    grid-column-start: 1;
+    grid-column-end: 10;
+  }
+}
+
+@media (max-width: 359px) {
+    .list__pokemons {
+      width: 80%;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 768px) {
+    .list__pokemons {
+      width: 90%;
+    }
+}
+
+@media (min-width: 768px) {
+    .list__pokemons {
+      width: 80%;
+    }
+}

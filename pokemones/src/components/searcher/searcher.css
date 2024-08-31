@@ -1,0 +1,13 @@
+.searcher{
+    border: none;
+    border-radius: 50px;
+    border-width: 1px;
+    background: #80808040;
+    padding: 5px 10px;
+    color: #514949;
+
+}
+
+.searcher:focus-visible{
+    outline: none;
+}
