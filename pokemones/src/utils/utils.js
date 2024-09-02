@@ -10,6 +10,17 @@ function getObjectPokemon(pokemon){
     }
 }
 
+function getElementsByString(elements, string){
+   return getArrayOfObject(elements).filter(
+        (item)=> item.name.includes(string)
+    )
+}
+
+function getArrayOfObject(elements){
+    return Object.values(elements);
+}
+
 export {
-    getObjectPokemon
+    getObjectPokemon,
+    getElementsByString,
 };
