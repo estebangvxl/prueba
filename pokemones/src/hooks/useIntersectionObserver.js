@@ -1,26 +1,21 @@
-import React, { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-const useIntersectionObserver = ({ref, config, handler}) => {
+const useIntersectionObserver = ({options}) => {
 
-    let observer = null;
-
-    const handlerIntersection = (entries, observer_) => {
-        entries.forEach(entry => {
-            if(entry.isIntersecting){
-                handler();
-            }
-        });
-    }
+    const [isIntersecting, setIsintersecting] = useState();
+    const element = useRef();
+    const observer = useRef(new IntersectionObserver((entries)=>{
+                            entries.forEach((entry)=>{
+                                setIsintersecting(entry.isIntersecting);
+                            });
+                        }, options)
+                    );
 
     useEffect(()=>{
-        observer = new IntersectionObserver(handlerIntersection, config);
-
-        observer.observe(ref.current);
+        observer.current.observe(element.current);
     }, []);
 
-    return observer;
+    return [element, isIntersecting];
 }
-
-
 
 export default useIntersectionObserver;
