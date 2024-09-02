@@ -3,6 +3,7 @@
     border-radius: 10px;
     border-color: #e57622;
     border-style: solid;
+    min-width: 155px;
 
     .img_pokemon{
         width: 100%;
