@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CardPokemon from '../cardPokemon/CardPokemon';
 import { getDetailsPokemon, getListPokemons, getPokemonByName } from '../../services/Pokemons';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
-import { getObjectPokemon, getElementsByString } from '../../utils/utils';
+import { getObjectPokemon, getElementsByString, emptyObject } from '../../utils/utils';
 import "./list-pokemons.css";
 
 const ListPokemons = ({filter = ""}) => {
@@ -24,29 +24,16 @@ const ListPokemons = ({filter = ""}) => {
     },[isIntersectingList]);
 
     useEffect(()=>{
-
-        const pokemonByName = async()=>{
-            if(!filter.length)return;
-            let data = null;
-            try {
-              data = await getPokemonByName(filter);
-              let id = data.id;
+        getPokemonByName(filter).then((data)=>{
                 setPokemons(
                     {
                         ...pokemons, 
-                        [id]: getObjectPokemon(data)
+                        [data.id]: getObjectPokemon(data)
                     }
                 );
-            } catch (error) {
-                //console.error(error)
-            } finally {
-                if (!data){
-                    setPokemonsFilter(getElementsByString(pokemons, filter));
-                }
-            }
-        }
-
-        pokemonByName();
+        }).catch(()=>{
+            setPokemonsFilter(getElementsByString(pokemons, filter));
+        })
 
     },[filter])
 
@@ -83,29 +70,35 @@ const ListPokemons = ({filter = ""}) => {
                 filter ?
                 <ul className="list__pokemons">
                 {
-                    pokemonsFilter.length ? pokemonsFilter.map((pokemon, index)=> 
+                    pokemonsFilter.map((pokemon, index)=> 
                         <li key={index}>
                            <Link to={`pokemon_details/${pokemon.name}`}> 
                                 <CardPokemon pokemon={pokemon} /> 
                            </Link>
                         </li>
-                    ) 
-                    : <li className="not-found-pokemon">No hay resultados con ese nombre</li>
+                    )
                 } 
                 </ul> :
 
                 <ul className="list__pokemons">
                 {
-                    Object.keys(pokemons).length ? Object.values(pokemons).map((pokemon, index)=> 
+                    Object.values(pokemons).map((pokemon, index)=> 
                         <li key={index}>
                             <Link to={`pokemon_details/${pokemon.name}`}> 
                                 <CardPokemon pokemon={pokemon} /> 
                            </Link>
                         </li>
                     ) 
-                    : <li className="not-found-pokemon">No tienes pokemones cargados</li>
                 } 
                 </ul>
+            }
+
+            {
+                emptyObject(pokemons) ? <div>NO HAY POKEMONES CARGADOS</div> : ''
+            }
+
+            {
+                emptyObject(pokemonsFilter) && !emptyObject(pokemons) ? <div>NO HAY POKEMONES CON ESE NOMBRE</div> : ''
             }
             <div id="oberver-pokemons" ref={observerList}></div>
         </>
