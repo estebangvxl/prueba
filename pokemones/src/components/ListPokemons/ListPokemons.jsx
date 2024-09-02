@@ -2,43 +2,47 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
 import CardPokemon from '../cardPokemon/CardPokemon';
 import { getDetailsPokemon, getListPokemons, getPokemonByName } from '../../services/Pokemons';
-import { getObjectPokemon } from '../../utils/utils';
+import useIntersectionObserver from '../../hooks/useIntersectionObserver';
+import { getObjectPokemon, getElementsByString } from '../../utils/utils';
 import "./list-pokemons.css";
 
 const ListPokemons = ({filter = ""}) => {
-    console.log(filter)
 
+    let nextUrl = useRef(null);
     const [pokemons, setPokemons] = useState({});
     const [pokemonsFilter, setPokemonsFilter] = useState({});
-    const [isVisible, setIsVisible] = useState(false);
-    
-    
-    let nextUrl = useRef(null);
-    let elemObserver = useRef(null);
-    let observer = null;
+    const [
+            observerList, 
+            isIntersectingList,
+          ] = useIntersectionObserver({root: null,rootMargin: "50px",threshold: 1.0});
 
     useEffect(()=>{
-        if(isVisible){
+        if(isIntersectingList){
             getPokemons()
         }
-    },[isVisible]);
+        console.log('getPOkemns')
+    },[isIntersectingList]);
 
     useEffect(()=>{
 
         const pokemonByName = async()=>{
             if(!filter.length)return;
+            const data = null;
             try {
-              const data = await getPokemonByName(filter);
-
-            let id = data.id;
-            setPokemons(
-                {
-                    ...pokemons, 
-                    [id]: getObjectPokemon(data)
-                }
-            );
+              data = await getPokemonByName(filter);
+              let id = data.id;
+                setPokemons(
+                    {
+                        ...pokemons, 
+                        [id]: getObjectPokemon(data)
+                    }
+                );
             } catch (error) {
-                console.error(error)
+                //console.error(error)
+            } finally {
+                if (!data){
+                    setPokemonsFilter(getElementsByString(pokemons, filter));
+                }
             }
         }
 
@@ -47,9 +51,8 @@ const ListPokemons = ({filter = ""}) => {
     },[filter])
 
     useEffect(()=>{
-        setPokemonsFilter(Object.values(pokemons).filter(
-            (item)=> item.name.includes(filter)
-        ));
+        setPokemonsFilter(getElementsByString(pokemons, filter));
+        
     }, [pokemons]);
 
     const getPokemons = async () =>{
@@ -72,22 +75,6 @@ const ListPokemons = ({filter = ""}) => {
         nextUrl.current = data.data.next;
         setPokemons({...pokemons,...pokemonsObject});
     }
-
-    useEffect(()=>{
-    console.log(pokemons)},[pokemons])
-
-    useEffect(()=>{
-        console.log('effect')
-        observer = new IntersectionObserver(([entry]) => {
-            setIsVisible(entry.isIntersecting);
-          }, {
-            root: null,
-            rootMargin: "50px",
-            threshold: 1.0,
-           });
-
-        observer.observe(elemObserver.current);
-    }, []);
 
 
     return (
@@ -120,7 +107,7 @@ const ListPokemons = ({filter = ""}) => {
                 } 
                 </ul>
             }
-            <div id="oberver-pokemons" ref={elemObserver}></div>
+            <div id="oberver-pokemons" ref={observerList}></div>
         </>
     );
 }
