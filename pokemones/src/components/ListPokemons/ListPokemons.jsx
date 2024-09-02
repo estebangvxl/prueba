@@ -14,7 +14,7 @@ const ListPokemons = ({filter = ""}) => {
     const [
             observerList, 
             isIntersectingList,
-          ] = useIntersectionObserver({root: null,rootMargin: "50px",threshold: 1.0});
+          ] = useIntersectionObserver({options: {root: null,rootMargin: "50px",threshold: 1.0}});
 
     useEffect(()=>{
         if(isIntersectingList){
