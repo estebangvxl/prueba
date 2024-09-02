@@ -20,7 +20,6 @@ const ListPokemons = ({filter = ""}) => {
         if(isIntersectingList){
             getPokemons()
         }
-        console.log('getPOkemns')
     },[isIntersectingList]);
 
     useEffect(()=>{
@@ -47,7 +46,6 @@ const ListPokemons = ({filter = ""}) => {
         try {
             data = await getListPokemons(nextUrl.current);
         } catch (error) {
-            console.log(error)
         }
         const pokemonsObject = {};
 
@@ -56,7 +54,6 @@ const ListPokemons = ({filter = ""}) => {
             try {
                 pokemonsObject[pokemonDetail?.id] = getObjectPokemon(pokemonDetail);
             } catch (error) {
-                console.log(error)
             }
         }
         nextUrl.current = data.data.next;

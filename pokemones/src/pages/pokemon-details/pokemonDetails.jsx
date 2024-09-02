@@ -13,7 +13,6 @@ const PokemonDetails = () => {
 
 
     const pokemon = useLoaderData();
-    console.log(pokemon)
 
     return (
         <section className="page__pokemon_details">
