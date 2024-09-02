@@ -20,7 +20,12 @@ function getArrayOfObject(elements){
     return Object.values(elements);
 }
 
+function emptyObject(object){
+    return getArrayOfObject(object).length === 0;
+}
+
 export {
     getObjectPokemon,
     getElementsByString,
+    emptyObject
 };
