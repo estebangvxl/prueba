@@ -27,7 +27,7 @@ const ListPokemons = ({filter = ""}) => {
 
         const pokemonByName = async()=>{
             if(!filter.length)return;
-            const data = null;
+            let data = null;
             try {
               data = await getPokemonByName(filter);
               let id = data.id;
