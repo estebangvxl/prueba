@@ -1,6 +1,6 @@
 .page__pokemon_details{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     margin: auto;
@@ -15,15 +15,19 @@
     }
 
     .list_details{
-        .name{
-            font-size: 40px;
+        .name-pokemon{
+            font-size: clamp(30px, 5vw, 40px);
             font-family: "Poppins", sans-serif;
             font-weight: 600;
             text-transform: capitalize;
         }
 
+        .item-pokemon{
+            font-size: clamp(14px, 4vw, 20px);
+        }
+
         .sublist{
-            font-size: 15px;
+            font-size: clamp(12px, 3vw, 18px);
             color: gray;
             margin-left: 10px;
         }
