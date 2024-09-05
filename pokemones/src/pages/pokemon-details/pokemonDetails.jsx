@@ -18,11 +18,11 @@ const PokemonDetails = () => {
         <section className="page__pokemon_details">
             <img src={pokemon.image} alt="" />
             <ul className='list_details'>
-                <li className='name'> Name: {pokemon.name}</li>
-                <li>
+                <li className='name-pokemon'> Name: {pokemon.name}</li>
+                <li className="item-pokemon">
                     abilities: {pokemon.abilities.map((ability, index)=> <div key={index} className='sublist'>{ability.ability.name}</div>)}
                 </li>
-                <li>Types: {pokemon.types.map((type, index)=> <div key={index} className='sublist'>{type.type.name}</div>)}</li>
+                <li className='item-pokemon'>Types: {pokemon.types.map((type, index)=> <div key={index} className='sublist'>{type.type.name}</div>)}</li>
             </ul>
         </section>
     );
