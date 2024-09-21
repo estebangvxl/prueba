@@ -1,10 +1,13 @@
 import './App.css';
-import Routes from './routes/routes';
+import RoutesApp from './routes/routes';
+import { CacheProvider } from './context/contextCache';
 
 function App() {
   return (
     <>
-      <Routes />
+      <CacheProvider>
+        <RoutesApp />
+      </CacheProvider> 
     </>
   );
 }
