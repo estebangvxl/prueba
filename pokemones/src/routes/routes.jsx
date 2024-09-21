@@ -1,25 +1,20 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider} from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from '../pages/home/Home';
-import PokemonDetails, { loader} from '../pages/pokemon-details/pokemonDetails';
+import PokemonDetails from '../pages/pokemon-details/pokemonDetails';
 
 
-const Routes = () => {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Home/>,
-    },
-    {
-      path: "pokemon_details/:name",
-      element: <PokemonDetails />,
-      loader: loader
-    },
-  ]);
+const RoutesApp = () => {
+  
 
     return (
-        <RouterProvider router={router} />
+        <HashRouter>
+          <Routes>
+            <Route path='pokemons' element={<Home />} />
+            <Route path='pokemon_details/:name' element={<PokemonDetails />} />
+          </Routes>
+        </HashRouter>
     );
 }
 
-export default Routes;
+export default RoutesApp;
