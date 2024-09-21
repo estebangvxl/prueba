@@ -10,7 +10,7 @@ const CardPokemon = ({pokemon}) => {
             style={{borderColor: getColorByPokemonType(pokemon.type)}}
         >
            <figure className='img_pokemon'>
-                <img src={pokemon?.image ? pokemon.image : imgDefault} alt="" />
+                <img src={pokemon?.image ? pokemon.image : imgDefault} alt="" loading='lazy' />
                 <figcaption>{pokemon.name}</figcaption>
            </figure>
         </article>
